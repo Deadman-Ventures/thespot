@@ -6,6 +6,10 @@
 
 # yarn
 yarn.lock
+
+# dist files
+dist/
+
 # User-specific files
 *.rsuser
 *.suo
