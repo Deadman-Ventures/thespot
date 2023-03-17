@@ -12,6 +12,10 @@ export const getUserByUsername = (username: string): User => {
     return
 }
 
+export const userExists = (username: string): boolean => {
+    return
+}
+
 export const createNewUser = (user: User): User => {
     return
 }
