@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "esnext",
+        "lib": [
+            "dom",
+            "esnext",
+            "ES2015"
+        ],
+        "sourceMap": true,
+        "jsx": "react",
+        "esModuleInterop": true,
+        "types": [
+            "node"
+        ],
+        "moduleResolution": "node",
+        "outDir": "dist"
+    },
+    "include": [
+        "server",
+        "client"
+    ],
+}
