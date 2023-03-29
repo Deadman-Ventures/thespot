@@ -6,7 +6,7 @@ const config: webpack.Configuration = {
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: 'index.bundle.[contenthash].js',
     },
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
