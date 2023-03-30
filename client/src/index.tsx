@@ -1,3 +1,4 @@
+import { ColorModeScript } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -5,13 +6,20 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import { App } from "./App";
-import { ErrorPage } from "./Error";
+import { ErrorPage, Homepage } from "./Pages"
+import { theme } from "./theme";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
-        errorElement: <ErrorPage />
+        element: (<><ColorModeScript initialColorMode={theme.config.initialColorMode} /><App /></>),
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: "/",
+                element: <Homepage />
+            }
+        ]
     },
 ]);
 
