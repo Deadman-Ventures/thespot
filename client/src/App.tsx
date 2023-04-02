@@ -1,28 +1,19 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { ChakraProvider, Container, Heading, Stack } from "@chakra-ui/react"
-import { theme } from "./theme";
-import '@fontsource/chivo/400.css'
-import '@fontsource/cabin/700.css'
+import './app.css'
 
 export function App() {
-
     return (
-        <>
-            <ChakraProvider theme={theme}>
-                <Container marginLeft={"5%"} marginRight={"5%"}>
-                    <Stack>
+        <div className="min-h-screen flex flex-col">
+            <header className="bg-red-50">the spot</header>
+            <div className="flex-1 flex flex-col sm:flex-row">
+                <main className="flex-1 bg-indigo-100"><Outlet /></main>
 
-                        <Heading
-                            fontSize={'2xl'}
-                            p={5}
-                        >
-                            the spot
-                        </Heading>
-                        <Outlet />
-                    </Stack>
-                </Container>
-            </ChakraProvider>
-        </>
+                <nav className="order-first sm:w-32 bg-purple-200">Sidebar</nav>
+
+                <aside className="sm:w-32 bg-yellow-100">Right Sidebar</aside>
+            </div>
+            <footer className="bg-gray-100">Footer</footer>
+        </div>
     )
 }
