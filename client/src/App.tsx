@@ -1,19 +1,41 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import './app.css'
+import { Fragment } from 'react'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import React from 'react'
+import { classNames } from './utils'
+import { Logo, NavBar, UserProfile } from './Components'
+import { Outlet } from 'react-router-dom'
+
+
 
 export function App() {
     return (
-        <div className="min-h-screen flex flex-col">
-            <header className="bg-red-50">the spot</header>
-            <div className="flex-1 flex flex-col sm:flex-row">
-                <main className="flex-1 bg-indigo-100"><Outlet /></main>
-
-                <nav className="order-first sm:w-32 bg-purple-200">Sidebar</nav>
-
-                <aside className="sm:w-32 bg-yellow-100">Right Sidebar</aside>
+        <>
+            <div>
+                <div className="min-h-full bg-gray-800">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="flex h-16 items-center justify-between">
+                            <div className="flex items-center">
+                                <Logo />
+                                <NavBar />
+                            </div>
+                            <div className="hidden md:block">
+                                <div className="ml-4 flex items-center md:ml-6">
+                                    <UserProfile />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <header className="bg-white shadow">
+                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Look before you leap</h1>
+                    </div>
+                </header>
+                <main>
+                    <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8"><Outlet /></div>
+                </main>
             </div>
-            <footer className="bg-gray-100">Footer</footer>
-        </div>
+        </>
     )
 }
