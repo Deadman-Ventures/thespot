@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { classNames } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
 export function NavBar() {
-    const navigation = [
-        { name: 'Explore', href: '#', current: true },
-        { name: 'Itineraries', href: '#', current: false },
-        { name: 'Find A Guide', href: '#', current: false },
-    ]
+    const navigate = useNavigate()
+    const [tabs, setTabs] = useState([
+        { name: 'Explore', current: true, link: '/' },
+        { name: 'Itineraries', current: false, link: '/itineraries' },
+        { name: 'Find A Guide', current: false, link: '/guides' },
+    ])
+
+    const changeTab = (item) => {
+        tabs.forEach(a => a.name === item.name ? a.current = true : a.current = false)
+        setTabs([...tabs])
+        navigate(item.link)
+    }
     return (
         <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-                {navigation.map((item) => (
+                {tabs.map((item) => (
                     <a
+                        onClick={() => changeTab(item)}
                         key={item.name}
-                        href={item.href}
                         className={classNames(
                             item.current
                                 ? 'bg-gray-900 text-white'

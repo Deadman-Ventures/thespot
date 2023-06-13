@@ -2,6 +2,6 @@
 import React from "react";
 
 export function Homepage() {
-    return (<><p>hi</p></>
+    return (<><p>Find a guide for your next trip</p></>
     )
 }
