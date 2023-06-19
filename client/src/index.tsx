@@ -5,7 +5,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import { App } from "./App";
-import { ErrorPage, Homepage } from "./Pages"
+import { ErrorPage, Homepage, Itineraries } from "./Pages"
 import './index.css'
 
 const router = createBrowserRouter([
@@ -17,6 +17,10 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Homepage />
+            },
+            {
+                path: '/itineraries',
+                element: <Itineraries />
             }
         ]
     },

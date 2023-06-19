@@ -2,11 +2,12 @@ import * as path from 'path';
 import * as webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-const config: webpack.Configuration = {
+const config: any = {
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'index.bundle.[contenthash].js',
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -30,6 +31,9 @@ const config: webpack.Configuration = {
                 use: ['style-loader', 'css-loader', 'postcss-loader'],
             }
         ],
+    },
+    devServer: {
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
