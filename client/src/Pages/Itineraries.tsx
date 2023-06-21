@@ -3,6 +3,7 @@ import { Itinerary } from "../Components";
 
 export function Itineraries() {
     const [selectedLength, setSelectedLength] = useState<number>()
+
     return (<>
         <div className="flex mb-4">
             <h1 className="h1 w-full h-12">Build and Share Your Plans</h1>

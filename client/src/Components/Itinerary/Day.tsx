@@ -28,13 +28,7 @@ export function Day(props: DayProps) {
                                 />
                             </div>
                         </div>
-
                     </div>
-                    <button
-                        className="btn-primary"
-                    >
-                        + Add Day
-                    </button>
                 </div>
 
 
