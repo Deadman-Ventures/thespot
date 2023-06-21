@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { classNames } from "../../utils";
 import { useNavigate } from "react-router-dom";
 
@@ -10,11 +10,22 @@ export function NavBar() {
         { name: 'Find A Guide', current: false, link: '/guides' },
     ])
 
+    useEffect(() => {
+        console.log('in useeffect')
+        for (let t of tabs) {
+            if (window.location.href.includes(t.link)) {
+                tabs.forEach(a => a.name === t.name ? a.current = true : a.current = false)
+                setTabs([...tabs])
+            }
+        }
+    }, [])
+
     const changeTab = (item) => {
         tabs.forEach(a => a.name === item.name ? a.current = true : a.current = false)
         setTabs([...tabs])
         navigate(item.link)
     }
+
     return (
         <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">

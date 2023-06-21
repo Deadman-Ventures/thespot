@@ -5,7 +5,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import { App } from "./App";
-import { ErrorPage, Homepage, Itineraries } from "./Pages"
+import { ErrorPage, Homepage, Itineraries, NewItinerary } from "./Pages"
 import './index.css'
 
 const router = createBrowserRouter([
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/itineraries',
                 element: <Itineraries />
+            },
+            {
+                path: '/itineraries/new',
+                element: <NewItinerary />
             }
         ]
     },

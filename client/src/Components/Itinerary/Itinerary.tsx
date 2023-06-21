@@ -5,13 +5,18 @@ interface ItineraryProps {
     length: number
 }
 
+type DayAttributes = {
+    day: number
+    details: string
+}
+
 export function Itinerary(props: ItineraryProps) {
-    const [tripDays, setTripDays] = useState<any[]>()
+    const [tripDays, setTripDays] = useState<DayAttributes[]>()
 
     useEffect(() => {
-        const days = []
+        const days: DayAttributes[] = []
         for (let i = 0; i < props.length; i++) {
-            days.push(<Day day={i + 1} key={i} />)
+            days.push({ day: i + 1, details: '' })
         }
         setTripDays([...days])
     }, [props.length])
@@ -22,15 +27,24 @@ export function Itinerary(props: ItineraryProps) {
     }
 
     const addDay = () => {
-        tripDays.push(<Day day={tripDays.length + 1} key={tripDays.length} />)
+        tripDays.push({ day: tripDays.length + 1, details: '' })
         setTripDays([...tripDays])
     }
 
     return (<>
-        {tripDays}
+        {tripDays?.map((d, i) => (
+            <Day
+                day={d.day}
+                details={d.details}
+                onDetailsChange={e => {
+                    tripDays[i].details = e.target.defaultValue
+                    setTripDays([...tripDays])
+                }} />
+        ))}
         <button
             className="btn-primary bg-red-600"
             onClick={() => removeDay()}
+            disabled={tripDays?.length === 0}
         >
             - Remove Day
         </button>
