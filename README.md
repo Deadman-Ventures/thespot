@@ -11,6 +11,6 @@ Client app uses Typescript + React.
 The database system used is a postgres db.
 
 ## Development
-All services can be started by using `docker-compose -f docker-compose.dev.yaml` in the root of the project. 
+All services can be started by using `docker-compose up` in the root of the project. 
 
 After starting the services attach to the container to develop inside of it.
