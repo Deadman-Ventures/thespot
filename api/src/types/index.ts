@@ -1,3 +1,1 @@
-export * from "./activities"
-export * from "./authentication"
-export * from "./itinerary"
+export * from "./eventCategories"
