@@ -8,15 +8,16 @@
             "ES2015"
         ],
         "sourceMap": true,
-        "jsx": "react",
         "esModuleInterop": true,
         "types": [
-            "node"
+            "node",
+            "@types/jest"
         ],
         "moduleResolution": "node",
         "outDir": "dist"
     },
     "include": [
         "src",
+        "tests"
     ],
 }
