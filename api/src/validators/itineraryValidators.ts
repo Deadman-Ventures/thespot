@@ -1,26 +1,17 @@
 import { Itinerary } from "../models";
+import { ItineraryValidationMessages } from "../types";
 
-export function validateItinerary(newItinerary: Itinerary): string | void {
-    return
+export function validateItinerary(newItinerary: Itinerary): string {
+    let errors = ''
+    if (!isValidItineraryName(newItinerary.name)) errors = errors + ItineraryValidationMessages.INVALID_NAME
+    if (!isValidItineraryDates(newItinerary.startDate, newItinerary.endDate)) errors = errors + ItineraryValidationMessages.INVALID_DATE_RANGE
+    return errors
 }
 
 export function isValidItineraryName(name: string): boolean {
-    return
+    return name.length <= 50
 }
 
 export function isValidItineraryDates(startDate: Date, endDate: Date): boolean {
-    return
-}
-
-// these functions will be much more useful when the auth is setup
-export function isValidItineraryCreator(user: string): boolean {
-    return
-}
-
-export function isValidItineraryEditors(name: string): boolean {
-    return
-}
-
-export function isValidItineraryViewers(name: string): boolean {
-    return
+    return startDate <= endDate
 }

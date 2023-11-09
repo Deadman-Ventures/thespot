@@ -7,7 +7,7 @@ import { DoesNotExistError, ValidationError } from "../../../src/errors";
 jest.mock("../../../src/validators/itineraryValidators")
 jest.mock("../../../src/models")
 
-describe('unit tests for the authentication services', () => {
+describe('unit tests for the itinerary services', () => {
     const validId = uuid()
     const validItinerary: Itinerary = {
         id: validId,
@@ -70,6 +70,9 @@ describe('unit tests for the authentication services', () => {
     })
 
     test('get itinerary works for itinerary that exists', () => {
+        const mockSelect = selectItinerary as jest.MockedFunction<typeof selectItinerary>
+        mockSelect.mockReturnValue(validItinerary)
+
         const result = getItinerary(validId)
 
         expect(result).toBe(validItinerary)
@@ -95,8 +98,8 @@ describe('unit tests for the authentication services', () => {
         mockUpdate.mockReturnValue(newItinerary)
         const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
         mockValidate.mockReturnValue()
-        const mockSelect = selectItinerary as jest.MockedFunction<typeof selectItinerary>
-        mockSelect.mockReturnValue(validItinerary)
+        const mockSelect = itineraryExists as jest.MockedFunction<typeof itineraryExists>
+        mockSelect.mockReturnValue(true)
 
         const result = editItinerary(newItinerary)
 
