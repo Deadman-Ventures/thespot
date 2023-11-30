@@ -1,6 +1,9 @@
-import { validateItinerary, isValidItineraryDates, isValidItineraryName } from "../../src/validators/itineraryValidators";
-import { Itinerary } from "../../src/models";
-import { ItineraryValidationMessages } from "../../src/types";
+import {
+    validateItinerary, isValidItineraryDates,
+    isValidItineraryName
+} from "../../src/validators/itineraryValidators.js";
+import { Itinerary } from "../../src/models/itinerary.js";
+import { ItineraryValidationMessages } from "../../src/types/validationMessages.js";
 
 
 describe('unit tests for the itinerary validators', () => {

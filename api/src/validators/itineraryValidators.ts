@@ -1,5 +1,5 @@
-import { Itinerary } from "../models";
-import { ItineraryValidationMessages } from "../types";
+import { Itinerary } from "../models/itinerary.js";
+import { ItineraryValidationMessages } from "../types/validationMessages.js";
 
 export function validateItinerary(newItinerary: Itinerary): string {
     let errors = ''

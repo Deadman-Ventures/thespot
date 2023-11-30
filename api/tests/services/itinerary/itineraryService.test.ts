@@ -1,8 +1,11 @@
-import { insertItinerary, updateItinerary, selectItinerary, Itinerary } from "../../../src/models";
-import { validateItinerary } from "../../../src/validators/itineraryValidators";
-import { createNewItinarary, editItinerary, getItinerary } from "../../../src/services/itinerary/itineraryService";
+import { insertItinerary, updateItinerary, selectItinerary, Itinerary } from "../../../src/models/itinerary.js";
+import { validateItinerary } from "../../../src/validators/itineraryValidators.js";
+import {
+    createNewItinarary, editItinerary,
+    getItinerary
+} from "../../../src/services/itinerary/itineraryService.js";
 import { v4 as uuid } from 'uuid'
-import { DoesNotExistError, ValidationError } from "../../../src/errors";
+import { DoesNotExistError, ValidationError } from "../../../src/errors/index.js";
 import { QueryArrayResult } from "pg";
 
 jest.mock("../../../src/validators/itineraryValidators")

@@ -1,5 +1,8 @@
-import { insertItinerary, updateItinerary, selectItinerary, Itinerary } from "../../src/models";
-import { query } from '../../src/db'
+import {
+    insertItinerary, updateItinerary, selectItinerary,
+    Itinerary
+} from "../../src/models/itinerary.js";
+import { query } from '../../src/db/index.js'
 import { v4 as uuid } from 'uuid'
 import { QueryArrayResult } from "pg";
 

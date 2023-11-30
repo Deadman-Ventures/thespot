@@ -1,20 +1,16 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "esnext",
-        "lib": [
-            "dom",
-            "esnext",
-            "ES2015"
-        ],
+        "target": "ESNext",
+        "module": "NodeNext",
         "sourceMap": true,
         "esModuleInterop": true,
         "types": [
             "node",
             "@types/jest"
         ],
-        "moduleResolution": "node",
-        "outDir": "dist"
+        "skipLibCheck": true,
+        "outDir": "dist/src",
+        "moduleResolution": "NodeNext"
     },
     "include": [
         "src",

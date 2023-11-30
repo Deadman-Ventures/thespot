@@ -1,2 +1,2 @@
-export * from './event'
-export * from './itinerary'
+export * from './event.js'
+export * from './itinerary.js'

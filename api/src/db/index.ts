@@ -1,4 +1,5 @@
-import { Pool } from 'pg'
+import pkg from 'pg';
+const { Pool } = pkg;
 
 // this loads config from .env
 // ebst if called as awit pool.query()

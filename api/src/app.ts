@@ -1,9 +1,14 @@
 import express from 'express';
-import {routes} from "./routes"
+import { routes } from "./routes/index.js"
+import { itineraryRoutes } from './routes/itineraryRoutes.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 const app = express();
 const port = 3000;
 
-app.use('/api', routes)
+app.use(routes)
+app.use(itineraryRoutes)
 
 app.use((err, req, res, next) => {
   res.status(err.status || 400).json({

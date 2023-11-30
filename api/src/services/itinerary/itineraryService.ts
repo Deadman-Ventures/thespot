@@ -1,6 +1,6 @@
-import { DoesNotExistError, ValidationError } from "../../errors"
-import { Itinerary, insertItinerary, selectItinerary, updateItinerary } from "../../models"
-import { validateItinerary } from "../../validators/itineraryValidators"
+import { DoesNotExistError, ValidationError } from "../../errors/index.js"
+import { Itinerary, insertItinerary, selectItinerary, updateItinerary } from "../../models/itinerary.js"
+import { validateItinerary } from "../../validators/itineraryValidators.js"
 
 export async function createNewItinarary(itinerary: Itinerary): Promise<Itinerary> {
     const validationMessage = validateItinerary(itinerary)

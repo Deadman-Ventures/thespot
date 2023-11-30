@@ -7,7 +7,7 @@
         "changes": [
           {
             "createTable": {
-              "tableName": "itinerary",
+              "tableName": "itineraries",
               "columns": [
                 {
                   "column": {
@@ -31,8 +31,17 @@
                 },
                 {
                   "column": {
-                    "name": "lengthInDays",
-                    "type": "integer",
+                    "name": "startDate",
+                    "type": "timestamp",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "endDate",
+                    "type": "timestamp",
                     "constraints": {
                       "nullable": false
                     }
@@ -60,96 +69,6 @@
                   "column": {
                     "name": "viewers",
                     "type": "uuid[]",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "createTable": {
-              "tableName": "event",
-              "columns": [
-                {
-                  "column": {
-                    "name": "id",
-                    "type": "uuid",
-                    "autoIncrement": "1",
-                    "constraints": {
-                      "primaryKey": true,
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "itineraryId",
-                    "type": "uuid",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "description",
-                    "type": "varchar(100)",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "category",
-                    "type": "varchar(50)",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "datetime",
-                    "type": "timestamp",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "location",
-                    "type": "text",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "link",
-                    "type": "text",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "cost",
-                    "type": "decimal",
-                    "constraints": {
-                      "nullable": false
-                    }
-                  }
-                },
-                {
-                  "column": {
-                    "name": "notes",
-                    "type": "text",
                     "constraints": {
                       "nullable": false
                     }

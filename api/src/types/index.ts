@@ -1,2 +1,2 @@
-export * from "./eventCategories"
-export * from './validationMessages'
+export * from "./eventCategories.js"
+export * from './validationMessages.js'

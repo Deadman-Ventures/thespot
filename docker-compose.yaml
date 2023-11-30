@@ -16,15 +16,15 @@ services:
   api:
     image: thespot/api
     environment:
-      - PGUSER=thespotapiuser
+      - PGUSER=postgres
       - PGHOST=localhost
-      - PGPASSWORD=devpwsupersecret
+      - PGPASSWORD=postgres
       - PGDATABASE=thespot
       - PGPORT=5432 
     build:
       context: api
     ports:
-      - '8080:8080'
+      - '3000:3000'
     command: "tail -f /dev/null"
     volumes:
       - ./api:/app

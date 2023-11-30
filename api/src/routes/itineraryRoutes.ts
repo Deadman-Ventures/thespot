@@ -1,8 +1,16 @@
-import { routes } from ".";
-import { Itinerary } from "../models";
-import { createNewItinarary, editItinerary, getItinerary } from "../services/itinerary/itineraryService";
+// import { routes } from "./index.js";
+import express from "express"
+import bodyParser from "body-parser"
+import { Itinerary } from "../models/itinerary.js";
+import { createNewItinarary, editItinerary, getItinerary } from "../services/itinerary/itineraryService.js";
 
-routes.get('/itineraries/get/:id', async (req, res) => {
+export const itineraryRoutes = express.Router()
+
+itineraryRoutes.use('/itineraries')
+itineraryRoutes.use(bodyParser.urlencoded({ extended: true }));
+itineraryRoutes.use(bodyParser.json());
+
+itineraryRoutes.get('get/:id', async (req, res) => {
     const id = req.params.id
     try {
         const itinerary = await getItinerary(id)
@@ -10,10 +18,15 @@ routes.get('/itineraries/get/:id', async (req, res) => {
     }
     catch (error) {
         console.error(`Error getting itinerary: ${id} -- ${error}`)
+        res.status(500).json({
+            success: false,
+            message: error.message || 'An error occured.',
+            errors: error.error || [],
+        });
     }
 });
 
-routes.post('/itineraries/create', async (req, res) => {
+itineraryRoutes.post('/create', async (req, res) => {
     const newItinerary = req.body as Itinerary
     try {
         const itinerary = await createNewItinarary(newItinerary)
@@ -21,10 +34,15 @@ routes.post('/itineraries/create', async (req, res) => {
     }
     catch (error) {
         console.error(`Error creating itinerary: ${newItinerary} -- ${error}`)
+        res.status(500).json({
+            success: false,
+            message: error.message || 'An error occured.',
+            errors: error.error || [],
+        });
     }
 });
 
-routes.post('/itineraries/edit', async (req, res) => {
+itineraryRoutes.post('edit', async (req, res) => {
     const newItinerary = req.body as Itinerary
     try {
         const itinerary = await editItinerary(newItinerary)
@@ -32,5 +50,10 @@ routes.post('/itineraries/edit', async (req, res) => {
     }
     catch (error) {
         console.error(`Error editing itinerary: ${newItinerary} -- ${error}`)
+        res.status(500).json({
+            success: false,
+            message: error.message || 'An error occured.',
+            errors: error.error || [],
+        });
     }
 });

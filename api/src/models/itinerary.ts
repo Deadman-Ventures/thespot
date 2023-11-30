@@ -1,4 +1,4 @@
-import { query } from "../db"
+import { query } from "../db/index.js"
 
 export type Itinerary = {
     // this has to be nullable for the sake of service methods. will always verify when needed
