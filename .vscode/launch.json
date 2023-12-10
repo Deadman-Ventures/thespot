@@ -5,15 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "cwd": "./api",
-      "type": "node",
+      "type": "node-terminal",
       "request": "launch",
       "name": "The Spot API",
-      "program": "../api/src/app.ts",
-      "preLaunchTask": "buildapi",
-      "outFiles": [
-        "./api/dist/src/**/*.js"
-      ]
+      "command": "cd api | yarn start"
     }
   ]
 }

@@ -1,19 +1,19 @@
 {
-    "compilerOptions": {
-        "target": "ESNext",
-        "module": "NodeNext",
-        "sourceMap": true,
-        "esModuleInterop": true,
-        "types": [
-            "node",
-            "@types/jest"
-        ],
-        "skipLibCheck": true,
-        "outDir": "dist/src",
-        "moduleResolution": "NodeNext"
-    },
-    "include": [
-        "src",
-        "tests"
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "@types/jest"
     ],
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "moduleResolution": "NodeNext"
+  },
+  "include": [
+    "src",
+    "tests"
+  ],
 }

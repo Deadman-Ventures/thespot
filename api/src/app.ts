@@ -7,8 +7,8 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-app.use(routes)
-app.use(itineraryRoutes)
+app.use('/', routes)
+app.use('/itinerary', itineraryRoutes)
 
 app.use((err, req, res, next) => {
   res.status(err.status || 400).json({

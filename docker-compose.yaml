@@ -13,6 +13,19 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 
+  migrate:
+    image: liquibase/liquibase:4.25-alpine
+    environment:
+      - PGUSER=postgres
+      - PGHOST=localhost
+      - PGPASSWORD=postgres
+      - PGDATABASE=thespot
+      - PGPORT=5432
+    network_mode: "host"
+    command: "liquibase --url=jdbc:postgresql://localhost:5432/thespot --changeLogFile=./changelog/thespot_changelog.json --defaultsFile=liquibase.properties --username=${POSTGRES_USER} --password=${POSTGRES_PASSWORD} update"
+    volumes:
+      - ./db:/liquibase/changelog
+
   api:
     image: thespot/api
     environment:
@@ -20,7 +33,7 @@ services:
       - PGHOST=localhost
       - PGPASSWORD=postgres
       - PGDATABASE=thespot
-      - PGPORT=5432 
+      - PGPORT=5432
     build:
       context: api
     ports:
@@ -38,7 +51,7 @@ services:
     command: "tail -f /dev/null"
     volumes:
       - ./client:/app
-      
+
 volumes:
   db:
     driver: local
