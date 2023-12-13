@@ -1,61 +1,48 @@
 import React, { useState } from "react";
 import { DatePicker, Dropdown, TimePicker } from "../Utilities";
 import dayjs from 'dayjs';
+import { Activity } from "./Activity";
+import { ActivityDetails } from "../../Types/ActivityDetails";
+import { DayDetails } from "../../Types/DayDetails";
+import { ActivityCategories } from "../../Types/ActivityCategories";
 
 export interface DayProps {
-    day: number
-    details: string
-    onDetailsChange: any
+  details: DayDetails
+  updateDetails: any
 }
 
 export function Day(props: DayProps) {
-    const [hourly, setHourly] = useState(false)
-    const [date, setDate] = useState(dayjs().format('YYYY-MM-DD'))
-    const [time, setTime] = useState('9:00')
+  const updateActivityDetails = (activty: number, newActivityDetails: ActivityDetails) => {
+    props.details.activities[activty] = { ...newActivityDetails }
+    props.updateDetails({ ...props.details })
+  }
 
-    return (<>
-        <form>
-            <div className="space-y-12">
-                <div className="border-b border-gray-900/10 pb-4">
-                    <h2 className="h2">Date:
-                        <DatePicker date={date} setDate={setDate} />
-                    </h2>
-                    <div className="mt-10 flex-row">
-                        <TimePicker time={time} setTime={setTime} />
-                        <Dropdown options={['test', '2']} />
-                        <div className="">
-                            <label
-                                className="block text-sm font-medium leading-6 text-gray-900">
-                                Activity
-                            </label>
-                            <div className="mt-2">
-                                <textarea
-                                    rows={3}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue={''}
-                                    onChange={props.onDetailsChange}
-                                />
-                            </div>
-                            <label
-                                className="block text-sm font-medium leading-6 text-gray-900">
-                                Notes
-                            </label>
-                            <div className="mt-2">
-                                <textarea
-                                    rows={3}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue={''}
-                                    onChange={props.onDetailsChange}
-                                />
-                            </div>
-                        </div>
+  const addActivity = () => {
+    props.details.activities.push({
+      category: ActivityCategories.lodging,
+      time: '9:00AM',
+      location: 'Location',
+      name: 'New Activity'
+    })
+    props.updateDetails({ ...props.details, activities: [...props.details.activities] })
+  }
 
-
-                    </div>
-                </div>
-
-
-            </div>
-        </form>
-    </>)
+  return (<>
+    <div className="space-y-12">
+      <div className="border-b border-gray-900/10 pb-4">
+        <h2 className="h2">
+          Date: {props.details.date}
+        </h2>
+        {props.details.activities.map((a, i) => (
+          <Activity details={a} updateDetails={(newDetails: ActivityDetails) => updateActivityDetails(i, { ...newDetails })} />
+        ))}
+        <button
+          className="btn-primary mt-2"
+          onClick={() => addActivity()}
+        >
+          + Add Activity
+        </button>
+      </div>
+    </div>
+  </>)
 }
