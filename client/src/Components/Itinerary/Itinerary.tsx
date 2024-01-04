@@ -5,74 +5,54 @@ import dayjs from "dayjs";
 import { DayDetails } from "../../Types/DayDetails";
 
 interface ItineraryProps {
-  dates: string[]
+  days: DayDetails[]
+  setDays: any
+  onSave: any
 }
 
 export function Itinerary(props: ItineraryProps) {
-  const [tripDays, setTripDays] = useState<DayDetails[]>()
+  const [error, setError] = useState<string>()
 
-  useEffect(() => {
-    const days: DayDetails[] = []
-    props.dates.forEach(d => {
-      days.push({
-        date: d,
-        activities: [
-          {
-            category: ActivityCategories.lodging,
-            location: 'Location',
-            name: 'New Activity',
-            time: '9:00AM'
-          }
-        ]
+
+
+  const validateItinerary = () => {
+    props.days.forEach(d => {
+      if (!d.date) {
+        return 'Each day in the trip must have a date.'
+      }
+      d.activities.forEach(a => {
+        if (!a.category || !a.location || !a.name || !a.time) {
+          return 'Each activity must have a category, name, location, and time.'
+        }
       })
     })
-    setTripDays([...days])
-  }, [props.dates])
-
-  const removeDay = () => {
-    tripDays.pop()
-    setTripDays([...tripDays])
-  }
-
-  const addDay = () => {
-    tripDays.push({ date: dayjs().format('YYYY-MM-DD'), activities: [] })
-    setTripDays([...tripDays])
   }
 
   const updateDay = (day: number, newDayDetails: DayDetails) => {
-    tripDays[day] = { ...newDayDetails }
-    setTripDays([...tripDays])
+    props.days[day] = { ...newDayDetails }
+    props.setDays([...props.days])
+  }
+
+  const onSave = () => {
+    validateItinerary()
+    props.onSave()
   }
 
   return (<>
-    {tripDays?.map((d, i) => (
+    {props.days?.map((d, i) => (
       <Day
         details={d}
         updateDetails={(newDetails: DayDetails) => updateDay(i, newDetails)}
       />
     ))}
-    {/* <button
-      className="btn-primary bg-red-600"
-      onClick={() => removeDay()}
-      disabled={tripDays?.length === 0}
-    >
-      - Remove Day
-    </button>
-    <button
-      className="btn-primary mt-2"
-      onClick={() => addDay()}
-    >
-      + Add Day
-    </button> */}
-
     <div className="mt-6 flex items-center justify-end gap-x-6">
-
       <button type="button" className="btn-cancel">
         Cancel
       </button>
       <button
         type="submit"
         className="btn-primary"
+        onClick={() => onSave()}
       >
         Save
       </button>

@@ -1,8 +1,9 @@
 import express from 'express';
 import { routes } from "./routes/index.js"
 import { itineraryRoutes } from './routes/itineraryRoutes.js';
-import * as dotenv from 'dotenv';
-dotenv.config();
+(async function() {
+  await import("dotenv/config")
+})()
 
 const app = express();
 const port = 3000;

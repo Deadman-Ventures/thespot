@@ -20,7 +20,7 @@ export function Day(props: DayProps) {
   const addActivity = () => {
     props.details.activities.push({
       category: ActivityCategories.lodging,
-      time: '9:00AM',
+      time: '09:00',
       location: 'Location',
       name: 'New Activity'
     })

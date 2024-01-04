@@ -8,7 +8,7 @@ import { QueryArrayResult } from "pg";
 
 jest.mock('../../src/db');
 
-describe('unit tests for the itinerary services', () => {
+describe('unit tests for the itinerary model', () => {
     const validId = uuid()
     const validItinerary: Itinerary = {
         id: validId,

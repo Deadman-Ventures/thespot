@@ -1,4 +1,4 @@
-export enum EventCategories {
+export enum ActivityCategories {
     ACTIVITY = 'Activity',
     FOOD = 'Food',
     LODGING = 'Lodging',

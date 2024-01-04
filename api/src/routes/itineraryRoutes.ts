@@ -15,7 +15,7 @@ itineraryRoutes.use((req, res, next) => {
 itineraryRoutes.use(bodyParser.urlencoded({ extended: true }));
 itineraryRoutes.use(bodyParser.json());
 
-itineraryRoutes.get('get/:id', async (req, res) => {
+itineraryRoutes.get('/:id', async (req, res) => {
     const id = req.params.id
     try {
         const itinerary = await getItinerary(id)

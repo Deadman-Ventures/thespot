@@ -7,7 +7,7 @@
         "changes": [
           {
             "createTable": {
-              "tableName": "itineraries",
+              "tableName": "itinerary",
               "columns": [
                 {
                   "column": {
@@ -71,6 +71,103 @@
                     "type": "uuid[]",
                     "constraints": {
                       "nullable": false
+                    }
+                  }
+                }
+              ]
+            },
+            "createTable": {
+              "tableName": "activity",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "uuid",
+                    "autoIncrement": "1",
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "itineraryId",
+                    "type": "uuid",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "category",
+                    "type": "varchar(50)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "time",
+                    "type": "varchar(8)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "duration",
+                    "type": "integer",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "location",
+                    "type": "varchar",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "cost",
+                    "type": "decimal",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "notes",
+                    "type": "varchar",
+                    "constraints": {
+                      "nullable": true
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "link",
+                    "type": "varchar",
+                    "constraints": {
+                      "nullable": true
                     }
                   }
                 }

@@ -6,10 +6,9 @@ import {
 } from "../../../src/services/itinerary/itineraryService.js";
 import { v4 as uuid } from 'uuid'
 import { DoesNotExistError, ValidationError } from "../../../src/errors/index.js";
-import { QueryArrayResult } from "pg";
 
 jest.mock("../../../src/validators/itineraryValidators")
-jest.mock("../../../src/models")
+jest.mock("../../../src/models/itinerary")
 
 describe('unit tests for the itinerary services', () => {
     const validId = uuid()

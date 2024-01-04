@@ -1,7 +1,7 @@
 {
-    "jest.jestCommandLine": "yarn test",
-    "jest.rootPath": "server",
-    "files.associations": {
-        "*.css": "tailwindcss"
-    }
+  "jest.jestCommandLine": "yarn test",
+  "jest.rootPath": "api/tests",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }
