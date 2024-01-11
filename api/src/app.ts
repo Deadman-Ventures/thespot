@@ -1,7 +1,8 @@
 import express from 'express';
 import { routes } from "./routes/index.js"
 import { itineraryRoutes } from './routes/itineraryRoutes.js';
-(async function() {
+import { activityRoutes } from './routes/activityRoutes.js'
+(async function () {
   await import("dotenv/config")
 })()
 
@@ -10,6 +11,7 @@ const port = 3000;
 
 app.use('/', routes)
 app.use('/itinerary', itineraryRoutes)
+app.use('/activity', activityRoutes)
 
 app.use((err, req, res, next) => {
   res.status(err.status || 400).json({

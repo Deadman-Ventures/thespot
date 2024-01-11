@@ -1,12 +1,14 @@
 import { v4 as uuid } from 'uuid'
 import { DoesNotExistError, ValidationError } from "../../../src/errors/index.js";
-import { Activity, insertActivity, selectActivity, updateActivity } from "../../../src/models/activity.js";
+import { Activity, insertActivity, selectActivity, selectAllActivitiesInItinerary, updateActivity } from "../../../src/models/activity.js";
 import { validateActivity } from '../../../src/validators/activityValidators.js';
 import { ActivityCategories } from '../../../src/types/activityCategories.js';
-import { createNewActivity, getActivity, updateExistingActivity } from '../../../src/services/activity/activityService.js';
+import { createNewActivity, getActivity, updateExistingActivity, getAllActivitiesInItinerary, createNewActivities } from '../../../src/services/activity/activityService.js';
+import { getItinerary } from '../../../src/services/itinerary/itineraryService.js';
 
 jest.mock("../../../src/validators/activityValidators")
 jest.mock("../../../src/models/activity")
+jest.mock("../../../src/services/itinerary/itineraryService")
 
 describe('unit tests for the activity services', () => {
   const validId = uuid()
@@ -130,4 +132,57 @@ describe('unit tests for the activity services', () => {
     expect(call).rejects.toThrow(DoesNotExistError)
     expect(mockSelect).toHaveBeenCalled()
   })
+
+  test('get all activities in itinerary works for valid itinerary', async () => {
+    const validItineraryId = uuid()
+    const mockSelect = selectAllActivitiesInItinerary as jest.MockedFunction<typeof selectAllActivitiesInItinerary>
+    mockSelect.mockResolvedValue([validActivity])
+    const mockGetItinerary = getItinerary as jest.MockedFunction<typeof getItinerary>
+    mockGetItinerary.mockResolvedValue({ id: validItineraryId, name: 'test', startDate: new Date(), endDate: new Date(), createdBy: uuid(), editors: [], viewers: [] })
+
+    const result = await getAllActivitiesInItinerary(validItineraryId)
+
+    expect(result).toEqual([validActivity])
+  })
+
+  test('get all activities in itinerary throws does not exist error for non-existent itinerary', async () => {
+    const invalidItineraryId = uuid()
+    const mockSelect = selectAllActivitiesInItinerary as jest.MockedFunction<typeof selectAllActivitiesInItinerary>
+    mockSelect.mockResolvedValue([])
+    const mockGetItinerary = getItinerary as jest.MockedFunction<typeof getItinerary>
+    mockGetItinerary.mockResolvedValue(undefined)
+
+
+    const call = async () => await getAllActivitiesInItinerary(invalidItineraryId)
+
+    expect(call).rejects.toThrow(DoesNotExistError)
+  })
+
+  test('createNewActivities works for valid activities', async () => {
+    const validActivities = [validActivity, validActivity]
+    const mockValidate = validateActivity as jest.MockedFunction<typeof validateActivity>
+    mockValidate.mockReturnValue('')
+    const mockInsert = insertActivity as jest.MockedFunction<typeof insertActivity>
+    mockInsert.mockResolvedValue(validActivity)
+
+    const result = await createNewActivities(validActivities)
+
+    expect(result).toEqual([validActivity, validActivity])
+    expect(mockValidate).toHaveBeenCalledTimes(2)
+    expect(mockInsert).toHaveBeenCalledTimes(2)
+  })
+
+  test('createNewActivities throws validation error for invalid activities', async () => {
+    const invalidActivities = [validActivity, validActivity]
+    const mockValidate = validateActivity as jest.MockedFunction<typeof validateActivity>
+    mockValidate.mockReturnValue('test error')
+    const mockInsert = insertActivity as jest.MockedFunction<typeof insertActivity>
+
+    const call = async () => await createNewActivities(invalidActivities)
+
+    expect(call).rejects.toThrow(ValidationError)
+    expect(mockValidate).toHaveBeenCalledTimes(2)
+    expect(mockInsert).not.toHaveBeenCalled()
+  })
+
 })

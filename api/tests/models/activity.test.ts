@@ -27,57 +27,68 @@ describe('unit tests for the activity model', () => {
   })
 
   afterEach(() => {
-      jest.resetAllMocks()
+    jest.resetAllMocks()
   })
 
   test('create new activity works for valid activity', async () => {
     const newActivity = {
       ...validActivity
-      }
-      const mockQuery = query as jest.MockedFunction<typeof query>
-      mockQuery.mockResolvedValue({
-          rows: [{ ...validActivity }], rowCount: 1, fields: [1],
-          command: '', oid: 1
-      } as unknown as QueryArrayResult)
+    }
+    const mockQuery = query as jest.MockedFunction<typeof query>
+    mockQuery.mockResolvedValue({
+      rows: [{ ...validActivity }], rowCount: 1, fields: [1],
+      command: '', oid: 1
+    } as unknown as QueryArrayResult)
 
-      const result = await insertActivity(newActivity)
+    const result = await insertActivity(newActivity)
 
-      expect(result).toEqual(validActivity)
+    expect(result).toEqual(validActivity)
   })
 
   test('select activity by id', async () => {
-      const mockQuery = query as jest.MockedFunction<typeof query>
-      mockQuery.mockResolvedValue({
-          rows: [{ ...validActivity }], rowCount: 1, fields: [1],
-          command: '', oid: 1
-      } as unknown as QueryArrayResult)
-      const result = await selectActivity(validId)
+    const mockQuery = query as jest.MockedFunction<typeof query>
+    mockQuery.mockResolvedValue({
+      rows: [{ ...validActivity }], rowCount: 1, fields: [1],
+      command: '', oid: 1
+    } as unknown as QueryArrayResult)
+    const result = await selectActivity(validId)
 
-      expect(result).toEqual(validActivity)
+    expect(result).toEqual(validActivity)
   })
 
   test('select activity id does not exist', async () => {
-      const mockQuery = query as jest.MockedFunction<typeof query>
-      mockQuery.mockResolvedValue({ rows: [], rowCount: 1, fields: [1], command: '', oid: 1 } as unknown as QueryArrayResult)
-      const result = await selectActivity(validId)
+    const mockQuery = query as jest.MockedFunction<typeof query>
+    mockQuery.mockResolvedValue({ rows: [], rowCount: 1, fields: [1], command: '', oid: 1 } as unknown as QueryArrayResult)
+    const result = await selectActivity(validId)
 
-      expect(result).toEqual(undefined)
+    expect(result).toEqual(undefined)
   })
 
   test('update existing activity', async () => {
-      const newActivity: Activity = {
-        ...validActivity,
-        name: 'new name',
-        cost: 3.50
-      }
-      const mockQuery = query as jest.MockedFunction<typeof query>
-      mockQuery.mockResolvedValue({
-          rows: [{ ...newActivity }], rowCount: 1, fields: [1],
-          command: '', oid: 1
-      } as unknown as QueryArrayResult)
+    const newActivity: Activity = {
+      ...validActivity,
+      name: 'new name',
+      cost: 3.50
+    }
+    const mockQuery = query as jest.MockedFunction<typeof query>
+    mockQuery.mockResolvedValue({
+      rows: [{ ...newActivity }], rowCount: 1, fields: [1],
+      command: '', oid: 1
+    } as unknown as QueryArrayResult)
 
-      const result = await updateActivity(newActivity)
+    const result = await updateActivity(newActivity)
 
-      expect(result).toEqual(newActivity)
+    expect(result).toEqual(newActivity)
+  })
+
+  test('select all activities in itinerary', async () => {
+    const mockQuery = query as jest.MockedFunction<typeof query>
+    mockQuery.mockResolvedValue({
+      rows: [{ ...validActivity }], rowCount: 1, fields: [1],
+      command: '', oid: 1
+    } as unknown as QueryArrayResult)
+    const result = await selectActivity(validId)
+
+    expect(result).toEqual(validActivity)
   })
 })

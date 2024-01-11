@@ -3,28 +3,27 @@ import { Itinerary, insertItinerary, selectItinerary, updateItinerary } from "..
 import { validateItinerary } from "../../validators/itineraryValidators.js"
 
 export async function createNewItinarary(itinerary: Itinerary): Promise<Itinerary> {
-    const validationMessage = validateItinerary(itinerary)
+  const validationMessage = validateItinerary(itinerary)
 
-    if (validationMessage) throw new ValidationError(validationMessage)
+  if (validationMessage) throw new ValidationError(validationMessage)
 
-    return await insertItinerary(itinerary)
-
+  return await insertItinerary(itinerary)
 }
 
 export async function getItinerary(id: string): Promise<Itinerary> {
-    const itinerary = await selectItinerary(id)
+  const itinerary = await selectItinerary(id)
 
-    if (!itinerary) throw new DoesNotExistError(`No itinerary exists for ID: ${id}`)
+  if (!itinerary) throw new DoesNotExistError(`No itinerary exists for ID: ${id}`)
 
-    return itinerary
+  return itinerary
 }
 
 export async function editItinerary(itinerary: Itinerary): Promise<Itinerary> {
-    if (!await selectItinerary(itinerary.id)) throw new DoesNotExistError(`No itinerary exists for ID: ${itinerary.id}`)
+  if (!await selectItinerary(itinerary.id)) throw new DoesNotExistError(`No itinerary exists for ID: ${itinerary.id}`)
 
-    const validationMessage = validateItinerary(itinerary)
+  const validationMessage = validateItinerary(itinerary)
 
-    if (validationMessage) throw new ValidationError(validationMessage)
+  if (validationMessage) throw new ValidationError(validationMessage)
 
-    return await updateItinerary(itinerary)
+  return await updateItinerary(itinerary)
 }

@@ -39,3 +39,10 @@ export async function updateActivity(activity: Activity): Promise<Activity> {
   )
   return res.rows[0] as unknown as Activity ?? undefined
 }
+
+export async function selectAllActivitiesInItinerary(itineraryId: string): Promise<Activity[]> {
+  const res = await query(
+    `select * from activities a
+    where a.itineraryId = $1`, [itineraryId])
+  return res.rows as unknown as Activity[]
+}
