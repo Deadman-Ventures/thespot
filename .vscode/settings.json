@@ -1,0 +1,7 @@
+{
+  "jest.jestCommandLine": "yarn test",
+  "jest.rootPath": "api/tests",
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

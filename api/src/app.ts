@@ -1,0 +1,32 @@
+import express from 'express';
+import cors from 'cors';
+import { routes } from "./routes/index.js"
+import { itineraryRoutes } from './routes/itineraryRoutes.js';
+import { activityRoutes } from './routes/activityRoutes.js'
+(async function () {
+  await import("dotenv/config")
+})()
+
+const app = express();
+const port = 3000;
+
+app.use(cors());
+app.use('/', routes)
+app.use('/itinerary', itineraryRoutes)
+app.use('/activity', activityRoutes)
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 400).json({
+    success: false,
+    message: err.message || 'An error occured.',
+    errors: err.error || [],
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: 'Resource not found.' });
+});
+
+app.listen(port, () => {
+  return console.log(`Express is listening at http://localhost:${port}`);
+});

@@ -2,16 +2,69 @@ version: '3.8'
 
 services:
   db:
-    image: postgres
+    image: postgres:16
     restart: always
     environment:
-      - POSTGRES_DB=thespot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
+
+  migrate:
+    image: liquibase/liquibase:4.25-alpine
+    environment:
+      - PGUSER=postgres
+      - PGHOST=localhost
+      - PGPASSWORD=postgres
+      - PGDATABASE=thespot
+      - PGPORT=5432
+    network_mode: "host"
+    command: "liquibase --url=jdbc:postgresql://localhost:5432/thespot --changeLogFile=./changelog/thespot_changelog.json --defaultsFile=liquibase.properties --username=${POSTGRES_USER} --password=${POSTGRES_PASSWORD} update"
+    volumes:
+      - ./db:/liquibase/changelog
+
+  rollback:
+    image: liquibase/liquibase:4.25-alpine
+    environment:
+      - PGUSER=postgres
+      - PGHOST=localhost
+      - PGPASSWORD=postgres
+      - PGDATABASE=thespot
+      - PGPORT=5432
+    network_mode: "host"
+    command: "liquibase --url=jdbc:postgresql://localhost:5432/thespot --changeLogFile=./changelog/thespot_changelog.json --defaultsFile=liquibase.properties --username=${POSTGRES_USER} --password=${POSTGRES_PASSWORD} rollback-count --count=1"
+    volumes:
+      - ./db:/liquibase/changelog
+
+  api:
+    image: thespot/api
+    environment:
+      - PGUSER=postgres
+      - PGHOST=localhost
+      - PGPASSWORD=postgres
+      - PGDATABASE=thespot
+      - PGPORT=5432
+    build:
+      context: api
+    ports:
+      - '3000:3000'
+    command: "tail -f /dev/null"
+    volumes:
+      - ./api:/app
+
+  client:
+    image: thespot/client
+    build:
+      context: client
+    ports:
+      - '8081:8081'
+    command: "tail -f /dev/null"
+    volumes:
+      - ./client:/app
+
 volumes:
   db:
     driver: local

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "@types/jest"
+    ],
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "moduleResolution": "NodeNext",
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    ".env"
+  ]
+}
