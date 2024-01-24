@@ -6,7 +6,7 @@ import { getItinerary } from "../itinerary/itineraryService.js"
 
 
 export async function createNewActivity(activity: Activity): Promise<Activity> {
-  const validationMessage = validateActivity(activity)
+  const validationMessage = await validateActivity(activity)
 
   if (validationMessage) throw new ValidationError(validationMessage)
 
@@ -14,7 +14,7 @@ export async function createNewActivity(activity: Activity): Promise<Activity> {
 }
 
 export async function createNewActivities(activities: Activity[]): Promise<Activity[]> {
-  const validationMessages = activities.map(validateActivity).filter(e => e !== '')
+  const validationMessages = await (await Promise.all(activities.map(await validateActivity))).filter(m => m !== '')
 
   if (validationMessages.length > 0) throw new ValidationError(validationMessages.join(', '))
 
@@ -22,7 +22,7 @@ export async function createNewActivities(activities: Activity[]): Promise<Activ
 }
 
 export async function updateExistingActivity(activity: Activity): Promise<Activity> {
-  const validationMessage = validateActivity(activity)
+  const validationMessage = await validateActivity(activity)
 
   if (validationMessage) throw new ValidationError(validationMessage)
 

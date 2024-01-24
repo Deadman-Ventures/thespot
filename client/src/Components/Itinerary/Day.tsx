@@ -20,10 +20,16 @@ export function Day(props: DayProps) {
   const addActivity = () => {
     props.details.activities.push({
       category: ActivityCategories.lodging,
+      date: props.details.date,
       time: '09:00',
       location: 'Location',
       name: 'New Activity'
     })
+    props.updateDetails({ ...props.details, activities: [...props.details.activities] })
+  }
+
+  const removeActivity = (activity: number) => {
+    props.details.activities.splice(activity, 1)
     props.updateDetails({ ...props.details, activities: [...props.details.activities] })
   }
 
@@ -34,7 +40,8 @@ export function Day(props: DayProps) {
           Date: {props.details.date}
         </h2>
         {props.details.activities.map((a, i) => (
-          <Activity details={a} updateDetails={(newDetails: ActivityDetails) => updateActivityDetails(i, { ...newDetails })} />
+          <Activity key={i} details={a} updateDetails={(newDetails: ActivityDetails) => updateActivityDetails(i, { ...newDetails })}
+            removeActivity={() => removeActivity(i)} />
         ))}
         <button
           className="btn-primary mt-2"

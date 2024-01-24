@@ -1,8 +1,8 @@
 import { insertItinerary, updateItinerary, selectItinerary, Itinerary } from "../../../src/models/itinerary.js";
 import { validateItinerary } from "../../../src/validators/itineraryValidators.js";
 import {
-    createNewItinarary, editItinerary,
-    getItinerary
+  createNewItinerary, editItinerary,
+  getItinerary
 } from "../../../src/services/itinerary/itineraryService.js";
 import { v4 as uuid } from 'uuid'
 import { DoesNotExistError, ValidationError } from "../../../src/errors/index.js";
@@ -11,144 +11,144 @@ jest.mock("../../../src/validators/itineraryValidators")
 jest.mock("../../../src/models/itinerary")
 
 describe('unit tests for the itinerary services', () => {
-    const validId = uuid()
-    const validItinerary: Itinerary = {
-        id: validId,
-        createdBy: 'test user',
-        editors: [],
-        viewers: [],
-        startDate: new Date('2023-01-01'),
-        endDate: new Date('2023-01-16'),
-        name: 'Test trip'
+  const validId = uuid()
+  const validItinerary: Itinerary = {
+    id: validId,
+    createdBy: 'test user',
+    editors: [],
+    viewers: [],
+    startDate: '2023-01-01',
+    endDate: '2023-01-16',
+    name: 'Test trip'
+  }
+
+  beforeAll(() => {
+
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  test('create new itinerary works for valid itinerary', async () => {
+    const newItinerary: Itinerary = {
+      createdBy: 'test user',
+      editors: [],
+      viewers: [],
+      startDate: '2023-01-01',
+      endDate: '2023-01-16',
+      name: 'Test trip'
     }
+    const mockInsert = insertItinerary as jest.MockedFunction<typeof insertItinerary>
+    mockInsert.mockResolvedValue(validItinerary)
+    const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
+    mockValidate.mockReturnValue('')
 
-    beforeAll(() => {
+    const result = await createNewItinerary(newItinerary)
 
-    })
+    expect(result).toBe(validItinerary)
+    expect(mockValidate).toHaveBeenCalled()
+    expect(mockInsert).toHaveBeenCalled()
+  })
 
-    afterEach(() => {
-        jest.resetAllMocks()
-    })
+  test('create new itinerary throws error when not valid', async () => {
+    // bad because start is after end
+    const newItinerary: Itinerary = {
+      createdBy: 'test user',
+      editors: [],
+      viewers: [],
+      startDate: '2023-05-01',
+      endDate: '2023-01-16',
+      name: 'Test trip'
+    }
+    const mockInsert = insertItinerary as jest.MockedFunction<typeof insertItinerary>
+    const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
+    mockValidate.mockReturnValue('Invalid date range.')
 
-    test('create new itinerary works for valid itinerary', async () => {
-        const newItinerary: Itinerary = {
-            createdBy: 'test user',
-            editors: [],
-            viewers: [],
-            startDate: new Date('2023-01-01'),
-            endDate: new Date('2023-01-16'),
-            name: 'Test trip'
-        }
-        const mockInsert = insertItinerary as jest.MockedFunction<typeof insertItinerary>
-        mockInsert.mockResolvedValue(validItinerary)
-        const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
-        mockValidate.mockReturnValue('')
+    const call = async () => await createNewItinerary(newItinerary)
 
-        const result = await createNewItinarary(newItinerary)
+    await expect(call).rejects.toThrow(ValidationError)
+    expect(mockValidate).toHaveBeenCalled()
+    expect(mockInsert).not.toHaveBeenCalled()
+  })
 
-        expect(result).toBe(validItinerary)
-        expect(mockValidate).toHaveBeenCalled()
-        expect(mockInsert).toHaveBeenCalled()
-    })
+  test('get itinerary works for itinerary that exists', async () => {
+    const mockSelect = selectItinerary as jest.MockedFunction<typeof selectItinerary>
+    mockSelect.mockResolvedValue(validItinerary)
 
-    test('create new itinerary throws error when not valid', async () => {
-        // bad because start is after end
-        const newItinerary: Itinerary = {
-            createdBy: 'test user',
-            editors: [],
-            viewers: [],
-            startDate: new Date('2023-05-01'),
-            endDate: new Date('2023-01-16'),
-            name: 'Test trip'
-        }
-        const mockInsert = insertItinerary as jest.MockedFunction<typeof insertItinerary>
-        const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
-        mockValidate.mockReturnValue('Invalid date range.')
+    const result = await getItinerary(validId)
 
-        const call = async () => await createNewItinarary(newItinerary)
+    expect(result).toBe(validItinerary)
+  })
 
-        await expect(call).rejects.toThrow(ValidationError)
-        expect(mockValidate).toHaveBeenCalled()
-        expect(mockInsert).not.toHaveBeenCalled()
-    })
+  test('get itinerary throws for id does not exist', async () => {
+    const call = async () => await getItinerary(validId)
 
-    test('get itinerary works for itinerary that exists', async () => {
-        const mockSelect = selectItinerary as jest.MockedFunction<typeof selectItinerary>
-        mockSelect.mockResolvedValue(validItinerary)
+    await expect(call).rejects.toThrow(DoesNotExistError)
+  })
 
-        const result = await getItinerary(validId)
+  test('edit itinerary successfully', async () => {
+    const newItinerary: Itinerary = {
+      id: validId,
+      createdBy: 'test user EDIT',
+      editors: [],
+      viewers: [],
+      startDate: '2023-01-01',
+      endDate: '2023-01-16',
+      name: 'Test trip EDIT'
+    }
+    const mockUpdate = updateItinerary as jest.MockedFunction<typeof updateItinerary>
+    mockUpdate.mockResolvedValue(newItinerary)
+    const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
+    mockValidate.mockReturnValue('')
+    const mockSelect = selectItinerary as jest.MockedFunction<typeof selectItinerary>
+    mockSelect.mockResolvedValue(validItinerary)
 
-        expect(result).toBe(validItinerary)
-    })
+    const result = await editItinerary(newItinerary)
 
-    test('get itinerary throws for id does not exist', async () => {
-        const call = async () => await getItinerary(validId)
+    expect(result).toBe(newItinerary)
+    expect(mockValidate).toHaveBeenCalled()
+    expect(mockUpdate).toHaveBeenCalled()
+  })
 
-        await expect(call).rejects.toThrow(DoesNotExistError)
-    })
+  test('edit itinerary fails because id does not exist', async () => {
+    const newItinerary: Itinerary = {
+      id: uuid(),
+      createdBy: 'test user',
+      editors: [],
+      viewers: [],
+      startDate: '2023-01-01',
+      endDate: '2023-01-16',
+      name: 'Test trip'
+    }
+    const mockExists = selectItinerary as jest.MockedFunction<typeof selectItinerary>
+    mockExists.mockResolvedValue(undefined)
 
-    test('edit itinerary successfully', async () => {
-        const newItinerary: Itinerary = {
-            id: validId,
-            createdBy: 'test user EDIT',
-            editors: [],
-            viewers: [],
-            startDate: new Date('2023-01-01'),
-            endDate: new Date('2023-01-16'),
-            name: 'Test trip EDIT'
-        }
-        const mockUpdate = updateItinerary as jest.MockedFunction<typeof updateItinerary>
-        mockUpdate.mockResolvedValue(newItinerary)
-        const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
-        mockValidate.mockReturnValue('')
-        const mockSelect = selectItinerary as jest.MockedFunction<typeof selectItinerary>
-        mockSelect.mockResolvedValue(validItinerary)
+    const call = async () => await editItinerary(newItinerary)
 
-        const result = await editItinerary(newItinerary)
+    await expect(call).rejects.toThrow(DoesNotExistError)
+    expect(mockExists).toHaveBeenCalled()
+  })
 
-        expect(result).toBe(newItinerary)
-        expect(mockValidate).toHaveBeenCalled()
-        expect(mockUpdate).toHaveBeenCalled()
-    })
+  test('edit itinerary fails because not valid', async () => {
+    // bad because start is after end
+    const newItinerary: Itinerary = {
+      id: validId,
+      createdBy: 'test user',
+      editors: [],
+      viewers: [],
+      startDate: '2023-05-01',
+      endDate: '2023-01-16',
+      name: 'Test trip'
+    }
+    const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
+    mockValidate.mockReturnValue('Invalid date range.')
+    const mockExists = selectItinerary as jest.MockedFunction<typeof selectItinerary>
+    mockExists.mockResolvedValue(validItinerary)
 
-    test('edit itinerary fails because id does not exist', async () => {
-        const newItinerary: Itinerary = {
-            id: uuid(),
-            createdBy: 'test user',
-            editors: [],
-            viewers: [],
-            startDate: new Date('2023-01-01'),
-            endDate: new Date('2023-01-16'),
-            name: 'Test trip'
-        }
-        const mockExists = selectItinerary as jest.MockedFunction<typeof selectItinerary>
-        mockExists.mockResolvedValue(undefined)
+    const call = async () => await editItinerary(newItinerary)
 
-        const call = async () => await editItinerary(newItinerary)
-
-        await expect(call).rejects.toThrow(DoesNotExistError)
-        expect(mockExists).toHaveBeenCalled()
-    })
-
-    test('edit itinerary fails because not valid', async () => {
-        // bad because start is after end
-        const newItinerary: Itinerary = {
-            id: validId,
-            createdBy: 'test user',
-            editors: [],
-            viewers: [],
-            startDate: new Date('2023-05-01'),
-            endDate: new Date('2023-01-16'),
-            name: 'Test trip'
-        }
-        const mockValidate = validateItinerary as jest.MockedFunction<typeof validateItinerary>
-        mockValidate.mockReturnValue('Invalid date range.')
-        const mockExists = selectItinerary as jest.MockedFunction<typeof selectItinerary>
-        mockExists.mockResolvedValue(validItinerary)
-
-        const call = async () => await editItinerary(newItinerary)
-
-        await expect(call).rejects.toThrow(ValidationError)
-        expect(mockValidate).toHaveBeenCalled()
-    })
+    await expect(call).rejects.toThrow(ValidationError)
+    expect(mockValidate).toHaveBeenCalled()
+  })
 })

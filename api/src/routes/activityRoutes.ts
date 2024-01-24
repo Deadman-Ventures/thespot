@@ -1,6 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
-import { getActivity, getAllActivitiesInItinerary } from "../services/activity/activityService.js";
+import { createNewActivities, getActivity, getAllActivitiesInItinerary } from "../services/activity/activityService.js";
+import { Activity } from "../models/activity.js";
 
 export const activityRoutes = express.Router()
 
@@ -16,8 +17,8 @@ activityRoutes.use(bodyParser.json());
 activityRoutes.get('/:id', async (req, res) => {
   const id = req.params.id
   try {
-    const itinerary = await getActivity(id)
-    res.status(200).json({ success: true, itinerary: itinerary });
+    const activity = await getActivity(id)
+    res.status(200).json(activity);
   }
   catch (error) {
     console.error(`Error getting activity: ${id} -- ${error}`)
@@ -33,10 +34,26 @@ activityRoutes.get('/allForItinerary/:id', async (req, res) => {
   const id = req.params.id
   try {
     const activities = await getAllActivitiesInItinerary(id)
-    res.status(200).json({ success: true, activities: activities });
+    res.status(200).json(activities);
   }
   catch (error) {
-    console.error(`Error getting activities: ${id} -- ${error}`)
+    console.error(`Error getting activities for itinerary: ${id} -- ${error}`)
+    res.status(500).json({
+      success: false,
+      message: error.message || 'An error occured.',
+      errors: error.error || [],
+    });
+  }
+})
+
+activityRoutes.post('/create-multiple', async (req, res) => {
+  const newActivities = req.body as Activity[]
+  try {
+    const activities = await createNewActivities(newActivities)
+    res.status(200).json(activities);
+  }
+  catch (error) {
+    console.error(`Error creating activities: ${JSON.stringify(newActivities)} -- ${error}`)
     res.status(500).json({
       success: false,
       message: error.message || 'An error occured.',

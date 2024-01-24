@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { routes } from "./routes/index.js"
 import { itineraryRoutes } from './routes/itineraryRoutes.js';
 import { activityRoutes } from './routes/activityRoutes.js'
@@ -9,6 +10,7 @@ import { activityRoutes } from './routes/activityRoutes.js'
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use('/', routes)
 app.use('/itinerary', itineraryRoutes)
 app.use('/activity', activityRoutes)

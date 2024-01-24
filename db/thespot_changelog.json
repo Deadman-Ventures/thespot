@@ -7,13 +7,12 @@
         "changes": [
           {
             "createTable": {
-              "tableName": "itinerary",
+              "tableName": "itineraries",
               "columns": [
                 {
                   "column": {
                     "name": "id",
                     "type": "uuid",
-                    "autoIncrement": "1",
                     "constraints": {
                       "primaryKey": true,
                       "nullable": false
@@ -31,8 +30,8 @@
                 },
                 {
                   "column": {
-                    "name": "startDate",
-                    "type": "timestamp",
+                    "name": "startdate",
+                    "type": "varchar(10)",
                     "constraints": {
                       "nullable": false
                     }
@@ -40,8 +39,8 @@
                 },
                 {
                   "column": {
-                    "name": "endDate",
-                    "type": "timestamp",
+                    "name": "enddate",
+                    "type": "varchar(10)",
                     "constraints": {
                       "nullable": false
                     }
@@ -49,7 +48,7 @@
                 },
                 {
                   "column": {
-                    "name": "createdBy",
+                    "name": "createdby",
                     "type": "uuid",
                     "constraints": {
                       "nullable": false
@@ -75,15 +74,16 @@
                   }
                 }
               ]
-            },
+            }
+          },
+          {
             "createTable": {
-              "tableName": "activity",
+              "tableName": "activities",
               "columns": [
                 {
                   "column": {
                     "name": "id",
                     "type": "uuid",
-                    "autoIncrement": "1",
                     "constraints": {
                       "primaryKey": true,
                       "nullable": false
@@ -92,7 +92,7 @@
                 },
                 {
                   "column": {
-                    "name": "itineraryId",
+                    "name": "itineraryid",
                     "type": "uuid",
                     "constraints": {
                       "nullable": false
@@ -119,8 +119,17 @@
                 },
                 {
                   "column": {
+                    "name": "date",
+                    "type": "varchar(10)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
                     "name": "time",
-                    "type": "varchar(8)",
+                    "type": "varchar(5)",
                     "constraints": {
                       "nullable": false
                     }

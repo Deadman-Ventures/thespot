@@ -29,7 +29,7 @@ describe('unit tests for the activity validators', () => {
   test('validItineraryId returns empty string when itinerary ID is valid', async () => {
     const validId = uuid()
     const mockSelectItinerary = selectItinerary as jest.MockedFunction<typeof selectItinerary>
-    mockSelectItinerary.mockResolvedValueOnce({ id: validId, name: 'test', startDate: new Date(), endDate: new Date(), createdBy: uuid(), editors: [], viewers: [] })
+    mockSelectItinerary.mockResolvedValueOnce({ id: validId, name: 'test', startDate: '2023-01-01', endDate: '2023-01-02', createdBy: uuid(), editors: [], viewers: [] })
 
     expect(await validateActivityItineraryId(validId)).toBe('')
   })
@@ -43,7 +43,7 @@ describe('unit tests for the activity validators', () => {
   })
 
   test('validateActivityCategoty returns message for invalid category', () => {
-    expect(validateActivityCategory('invalid category' as ActivityCategories)).toBe(ActivityValidationMessages.INVALID_CATEGORY)
+    expect(validateActivityCategory('invalid category' as unknown as ActivityCategories)).toBe(ActivityValidationMessages.INVALID_CATEGORY)
   })
 
   test('validateActivityCategory returns empty string for a valid category', () => {

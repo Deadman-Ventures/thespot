@@ -13,8 +13,6 @@ interface ItineraryProps {
 export function Itinerary(props: ItineraryProps) {
   const [error, setError] = useState<string>()
 
-
-
   const validateItinerary = () => {
     props.days.forEach(d => {
       if (!d.date) {

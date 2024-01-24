@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { TimePicker } from "../Utilities";
 import { ActivityCategories } from "../../Types/ActivityCategories";
 import { ActivityDetails } from "../../Types/ActivityDetails";
+import { MinusCircleIcon } from "@heroicons/react/24/outline";
+
 
 export interface ActivtyProps {
   details: ActivityDetails
   updateDetails: any
+  removeActivity: any
 }
 
 export function Activity(props: ActivtyProps) {
@@ -92,6 +95,7 @@ export function Activity(props: ActivtyProps) {
               />
             </label>
           </div>
+          <MinusCircleIcon className="h-5 w-5 text-gray-400" aria-hidden="true" onClick={() => props.removeActivity()} />
         </div>
       </div>
     </form>

@@ -16,11 +16,13 @@ describe('unit tests for the activity model', () => {
     category: ActivityCategories.ACTIVITY,
     name: 'Test Activity',
     itineraryId: validItineraryId,
+    id: validId,
     cost: 1.50,
     link: 'random hyperlink',
     location: 'Colorado',
     notes: 'Test notes about the activity',
-    time: '09:00'
+    time: '09:00',
+    date: '2021-01-01',
   }
 
   beforeAll(() => {
@@ -36,7 +38,7 @@ describe('unit tests for the activity model', () => {
     }
     const mockQuery = query as jest.MockedFunction<typeof query>
     mockQuery.mockResolvedValue({
-      rows: [{ ...validActivity }], rowCount: 1, fields: [1],
+      rows: [{ ...validActivity, itineraryid: validItineraryId }], rowCount: 1, fields: [1],
       command: '', oid: 1
     } as unknown as QueryArrayResult)
 
@@ -48,7 +50,7 @@ describe('unit tests for the activity model', () => {
   test('select activity by id', async () => {
     const mockQuery = query as jest.MockedFunction<typeof query>
     mockQuery.mockResolvedValue({
-      rows: [{ ...validActivity }], rowCount: 1, fields: [1],
+      rows: [{ ...validActivity, itineraryid: validItineraryId }], rowCount: 1, fields: [1],
       command: '', oid: 1
     } as unknown as QueryArrayResult)
     const result = await selectActivity(validId)
@@ -72,7 +74,7 @@ describe('unit tests for the activity model', () => {
     }
     const mockQuery = query as jest.MockedFunction<typeof query>
     mockQuery.mockResolvedValue({
-      rows: [{ ...newActivity }], rowCount: 1, fields: [1],
+      rows: [{ ...newActivity, itineraryid: validItineraryId }], rowCount: 1, fields: [1],
       command: '', oid: 1
     } as unknown as QueryArrayResult)
 
@@ -84,7 +86,7 @@ describe('unit tests for the activity model', () => {
   test('select all activities in itinerary', async () => {
     const mockQuery = query as jest.MockedFunction<typeof query>
     mockQuery.mockResolvedValue({
-      rows: [{ ...validActivity }], rowCount: 1, fields: [1],
+      rows: [{ ...validActivity, itineraryid: validItineraryId }], rowCount: 1, fields: [1],
       command: '', oid: 1
     } as unknown as QueryArrayResult)
     const result = await selectActivity(validId)

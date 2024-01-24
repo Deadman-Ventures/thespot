@@ -3,10 +3,10 @@ import { selectItinerary } from "../models/itinerary.js";
 import { ActivityCategories } from "../types/activityCategories.js";
 import { ActivityValidationMessages } from "../types/validationMessages.js";
 
-export function validateActivity(activity: Activity) {
+export async function validateActivity(activity: Activity) {
   const errors = [
     validateActivityName(activity.name),
-    validateActivityItineraryId(activity.itineraryId),
+    await validateActivityItineraryId(activity.itineraryId),
     validateActivityCategory(activity.category),
     validateActivityTime(activity.time)
   ]

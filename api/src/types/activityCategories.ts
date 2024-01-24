@@ -1,7 +1,7 @@
 export enum ActivityCategories {
-    ACTIVITY = 'Activity',
-    FOOD = 'Food',
-    LODGING = 'Lodging',
-    TRANSIT = 'Transit',
-    OTHER = 'Other',
+  ACTIVITY,
+  FOOD,
+  LODGING,
+  TRANSIT,
+  OTHER
 }

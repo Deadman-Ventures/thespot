@@ -2,7 +2,7 @@ import { DoesNotExistError, ValidationError } from "../../errors/index.js"
 import { Itinerary, insertItinerary, selectItinerary, updateItinerary } from "../../models/itinerary.js"
 import { validateItinerary } from "../../validators/itineraryValidators.js"
 
-export async function createNewItinarary(itinerary: Itinerary): Promise<Itinerary> {
+export async function createNewItinerary(itinerary: Itinerary): Promise<Itinerary> {
   const validationMessage = validateItinerary(itinerary)
 
   if (validationMessage) throw new ValidationError(validationMessage)
