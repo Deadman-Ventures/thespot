@@ -54,11 +54,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/itineraries',
-        element: <Itineraries />
+        element: <SessionAuth><Itineraries /></SessionAuth>
       },
       {
         path: '/itineraries/new',
-        element: <NewItinerary />
+        element: <SessionAuth><NewItinerary /></SessionAuth>
       }
     ]
   },
