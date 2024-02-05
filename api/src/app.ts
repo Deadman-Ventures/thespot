@@ -4,14 +4,16 @@ import { routes } from "./routes/index.js"
 import { itineraryRoutes } from './routes/itineraryRoutes.js';
 import { activityRoutes } from './routes/activityRoutes.js'
 import supertokens from "supertokens-node";
-import Session from "supertokens-node/recipe/session";
-import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword";
-import { middleware } from "supertokens-node/framework/express";
-import { errorHandler } from "supertokens-node/framework/express";
-
-(async function () {
-  await import("dotenv/config")
-})()
+import Session from "supertokens-node/recipe/session/index.js";
+import ThirdPartyEmailPassword from "supertokens-node/recipe/thirdpartyemailpassword/index.js";
+import { middleware } from "supertokens-node/framework/express/index.js";
+import { errorHandler } from "supertokens-node/framework/express/index.js";
+import Dashboard from "supertokens-node/recipe/dashboard/index.js";
+// (async function () {
+//   await import("dotenv/config")
+// })()
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,8 +21,7 @@ const port = process.env.PORT || 3000;
 supertokens.init({
   framework: "express",
   supertokens: {
-    // https://try.supertokens.com is for demo purposes. Replace this with the address of your core instance (sign up on supertokens.com), or self host a core.
-    connectionURI: "https://try.supertokens.com",
+    connectionURI: process.env.SUPERTOKENS_URI,
     // apiKey: <API_KEY(if configured)>,
   },
   appInfo: {
@@ -32,6 +33,7 @@ supertokens.init({
     websiteBasePath: "/auth"
   },
   recipeList: [
+    Dashboard.init(),
     ThirdPartyEmailPassword.init({
       // We have provided you with development keys which you can use for testing.
       // IMPORTANT: Please replace them with your own OAuth keys for production use.
@@ -66,7 +68,7 @@ supertokens.init({
         }
       }],
     }),
-    Session.init() // initializes session features
+    Session.init(), // initializes session features
   ]
 });
 
