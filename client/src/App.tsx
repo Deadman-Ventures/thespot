@@ -3,6 +3,10 @@ import React from 'react'
 import { classNames } from './utils'
 import { Logo, NavBar, UserProfile } from './Components'
 import { Outlet } from 'react-router-dom'
+import { SessionAuth } from 'supertokens-auth-react/recipe/session'
+
+
+
 
 export function App() {
   return (
@@ -24,7 +28,7 @@ export function App() {
           </div>
         </div>
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 w-full"><Outlet /></div>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 w-full"><SessionAuth><Outlet /></SessionAuth></div>
         </main>
       </div>
     </>

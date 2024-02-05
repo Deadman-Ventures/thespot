@@ -2,6 +2,8 @@ import express from "express"
 import bodyParser from "body-parser"
 import { Itinerary } from "../models/itinerary.js";
 import { createNewItinerary, editItinerary, getItinerary } from "../services/itinerary/itineraryService.js";
+import { verifySession } from "supertokens-node/recipe/session/framework/express";
+import { SessionRequest } from "supertokens-node/framework/express";
 
 export const itineraryRoutes = express.Router()
 
@@ -14,7 +16,7 @@ itineraryRoutes.use((req, res, next) => {
 itineraryRoutes.use(bodyParser.urlencoded({ extended: true }));
 itineraryRoutes.use(bodyParser.json());
 
-itineraryRoutes.get('/:id', async (req, res) => {
+itineraryRoutes.get('/:id', verifySession(), async (req: SessionRequest, res) => {
   const id = req.params.id
   try {
     const itinerary = await getItinerary(id)
@@ -30,7 +32,7 @@ itineraryRoutes.get('/:id', async (req, res) => {
   }
 });
 
-itineraryRoutes.post('/create', async (req, res) => {
+itineraryRoutes.post('/create', verifySession(), async (req: SessionRequest, res) => {
   const newItinerary = req.body as Itinerary
   try {
     const itinerary = await createNewItinerary(newItinerary)
@@ -46,7 +48,7 @@ itineraryRoutes.post('/create', async (req, res) => {
   }
 });
 
-itineraryRoutes.post('edit', async (req, res) => {
+itineraryRoutes.post('edit', verifySession(), async (req: SessionRequest, res) => {
   const newItinerary = req.body as Itinerary
   try {
     const itinerary = await editItinerary(newItinerary)

@@ -2,6 +2,8 @@ import express from "express"
 import bodyParser from "body-parser"
 import { createNewActivities, getActivity, getAllActivitiesInItinerary } from "../services/activity/activityService.js";
 import { Activity } from "../models/activity.js";
+import { verifySession } from "supertokens-node/recipe/session/framework/express";
+import { SessionRequest } from "supertokens-node/framework/express";
 
 export const activityRoutes = express.Router()
 
@@ -14,7 +16,7 @@ activityRoutes.use((req, res, next) => {
 activityRoutes.use(bodyParser.urlencoded({ extended: true }));
 activityRoutes.use(bodyParser.json());
 
-activityRoutes.get('/:id', async (req, res) => {
+activityRoutes.get('/:id', verifySession(), async (req: SessionRequest, res) => {
   const id = req.params.id
   try {
     const activity = await getActivity(id)
@@ -30,7 +32,7 @@ activityRoutes.get('/:id', async (req, res) => {
   }
 });
 
-activityRoutes.get('/allForItinerary/:id', async (req, res) => {
+activityRoutes.get('/allForItinerary/:id', verifySession(), async (req: SessionRequest, res) => {
   const id = req.params.id
   try {
     const activities = await getAllActivitiesInItinerary(id)
@@ -46,7 +48,7 @@ activityRoutes.get('/allForItinerary/:id', async (req, res) => {
   }
 })
 
-activityRoutes.post('/create-multiple', async (req, res) => {
+activityRoutes.post('/create-multiple', verifySession(), async (req: SessionRequest, res) => {
   const newActivities = req.body as Activity[]
   try {
     const activities = await createNewActivities(newActivities)
