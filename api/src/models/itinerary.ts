@@ -51,3 +51,10 @@ export async function updateItinerary(itinerary: Itinerary): Promise<Itinerary> 
   )
   return convertQueryResultToItinerary(res.rows[0])
 }
+
+export async function selectItinerariesByUser(userId: string): Promise<Itinerary[]> {
+  const res = await query(
+    `select * from itineraries i
+        where i.createdby = $1`, [userId])
+  return res.rows.map(convertQueryResultToItinerary)
+}

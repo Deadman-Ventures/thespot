@@ -1,6 +1,7 @@
 import {
   insertItinerary, updateItinerary, selectItinerary,
-  Itinerary
+  Itinerary,
+  selectItinerariesByUser
 } from "../../src/models/itinerary.js";
 import { query } from '../../src/db/index.js'
 import { v4 as uuid } from 'uuid'
@@ -85,5 +86,17 @@ describe('unit tests for the itinerary model', () => {
     const result = await updateItinerary(newItinerary)
 
     expect(result).toEqual(newItinerary)
+  })
+
+  test('get itineraries by user', async () => {
+    const mockQuery = query as jest.MockedFunction<typeof query>
+    mockQuery.mockResolvedValue({
+      rows: [{ ...validItinerary, startdate: '2023-01-01', enddate: '2023-01-16', createdby: 'test user' }], rowCount: 1, fields: [1],
+      command: '', oid: 1
+    } as unknown as QueryArrayResult)
+
+    const result = await selectItinerariesByUser(validId)
+
+    expect(result).toEqual([validItinerary])
   })
 })

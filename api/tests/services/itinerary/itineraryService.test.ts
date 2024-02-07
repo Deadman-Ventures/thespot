@@ -1,7 +1,8 @@
-import { insertItinerary, updateItinerary, selectItinerary, Itinerary } from "../../../src/models/itinerary.js";
+import { insertItinerary, updateItinerary, selectItinerary, Itinerary, selectItinerariesByUser } from "../../../src/models/itinerary.js";
 import { validateItinerary } from "../../../src/validators/itineraryValidators.js";
 import {
   createNewItinerary, editItinerary,
+  getItinerariesByUser,
   getItinerary
 } from "../../../src/services/itinerary/itineraryService.js";
 import { v4 as uuid } from 'uuid'
@@ -150,5 +151,15 @@ describe('unit tests for the itinerary services', () => {
 
     await expect(call).rejects.toThrow(ValidationError)
     expect(mockValidate).toHaveBeenCalled()
+  })
+
+  test('get itineeraries by user', async () => {
+    const mockSelect = selectItinerariesByUser as jest.MockedFunction<typeof selectItinerariesByUser>
+    mockSelect.mockResolvedValue([validItinerary])
+
+    const result = await getItinerariesByUser(validId)
+
+    expect(result[0]).toBe(validItinerary)
+    expect(result.length).toBe(1)
   })
 })

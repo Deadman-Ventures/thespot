@@ -1,7 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
 import { Itinerary } from "../models/itinerary.js";
-import { createNewItinerary, editItinerary, getItinerary } from "../services/itinerary/itineraryService.js";
+import { createNewItinerary, editItinerary, getItinerariesByUser, getItinerary } from "../services/itinerary/itineraryService.js";
 import { verifySession } from "supertokens-node/recipe/session/framework/express/index.js";
 import { SessionRequest } from "supertokens-node/framework/express/index.js";
 
@@ -24,6 +24,22 @@ itineraryRoutes.get('/:id', verifySession(), async (req: SessionRequest, res) =>
   }
   catch (error) {
     console.error(`Error getting itinerary: ${id} -- ${error}`)
+    res.status(500).json({
+      success: false,
+      message: error.message || 'An error occured.',
+      errors: error.error || [],
+    });
+  }
+});
+
+itineraryRoutes.get('/get-user-itineraries/:userId', verifySession(), async (req: SessionRequest, res) => {
+  const userId = req.params.userId
+  try {
+    const itineraries = await getItinerariesByUser(userId)
+    res.status(200).json(itineraries);
+  }
+  catch (error) {
+    console.error(`Error getting itineraries for user: ${userId} -- ${error}`)
     res.status(500).json({
       success: false,
       message: error.message || 'An error occured.',

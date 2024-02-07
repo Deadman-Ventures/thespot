@@ -1,5 +1,5 @@
 import { DoesNotExistError, ValidationError } from "../../errors/index.js"
-import { Itinerary, insertItinerary, selectItinerary, updateItinerary } from "../../models/itinerary.js"
+import { Itinerary, insertItinerary, selectItinerary, selectItinerariesByUser, updateItinerary } from "../../models/itinerary.js"
 import { validateItinerary } from "../../validators/itineraryValidators.js"
 
 export async function createNewItinerary(itinerary: Itinerary): Promise<Itinerary> {
@@ -16,6 +16,10 @@ export async function getItinerary(id: string): Promise<Itinerary> {
   if (!itinerary) throw new DoesNotExistError(`No itinerary exists for ID: ${id}`)
 
   return itinerary
+}
+
+export async function getItinerariesByUser(userId: string): Promise<Itinerary[]> {
+  return await selectItinerariesByUser(userId)
 }
 
 export async function editItinerary(itinerary: Itinerary): Promise<Itinerary> {
