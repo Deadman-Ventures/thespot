@@ -2,22 +2,21 @@ import { Menu, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { classNames } from "../../utils";
 import { signOut } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
+import { WEBSITE_DOMAIN } from "../../Types/Config";
 
 export function UserProfile() {
   const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
     imageUrl:
       'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
   }
 
   const userNavigation = [
-    { name: 'Your Profile', onClick: () => console.log('Your Profile') },
-    { name: 'Settings', onClick: () => console.log('Your Profile') },
+    { name: 'My Trips', onClick: () => console.log('Trips') },
+    { name: 'Settings', onClick: () => console.log('Settings') },
     {
       name: 'Sign out', onClick: async () => {
         await signOut();
-        window.location.href = "/";
+        window.location.href = WEBSITE_DOMAIN;
       }
     },
   ]
@@ -25,9 +24,8 @@ export function UserProfile() {
   return (<>
     <Menu as="div" className="relative ml-3">
       <div>
-        <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-          <span className="sr-only">Open user menu</span>
-          <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+        <Menu.Button className="rounded-md px-3 py-2 font-medium text-gray-300 text-sm hover:bg-gray-700 hover:text-white">
+          My Profile
         </Menu.Button>
       </div>
       <Transition

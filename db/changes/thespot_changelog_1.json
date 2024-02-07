@@ -7,7 +7,7 @@
         "changes": [
           {
             "createTable": {
-              "tableName": "thespot.itineraries",
+              "tableName": "itineraries",
               "columns": [
                 {
                   "column": {
@@ -78,7 +78,7 @@
           },
           {
             "createTable": {
-              "tableName": "thespot.activities",
+              "tableName": "activities",
               "columns": [
                 {
                   "column": {

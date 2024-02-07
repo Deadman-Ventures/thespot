@@ -2,8 +2,8 @@ import express from "express"
 import bodyParser from "body-parser"
 import { Itinerary } from "../models/itinerary.js";
 import { createNewItinerary, editItinerary, getItinerary } from "../services/itinerary/itineraryService.js";
-import { verifySession } from "supertokens-node/recipe/session/framework/express";
-import { SessionRequest } from "supertokens-node/framework/express";
+import { verifySession } from "supertokens-node/recipe/session/framework/express/index.js";
+import { SessionRequest } from "supertokens-node/framework/express/index.js";
 
 export const itineraryRoutes = express.Router()
 

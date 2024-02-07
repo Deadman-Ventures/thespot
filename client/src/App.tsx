@@ -19,7 +19,7 @@ export function App() {
                 <Logo />
                 <NavBar />
               </div>
-              <div className="hidden md:block">
+              <div className="block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <UserProfile />
                 </div>

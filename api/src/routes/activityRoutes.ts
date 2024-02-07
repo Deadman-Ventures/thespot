@@ -2,8 +2,8 @@ import express from "express"
 import bodyParser from "body-parser"
 import { createNewActivities, getActivity, getAllActivitiesInItinerary } from "../services/activity/activityService.js";
 import { Activity } from "../models/activity.js";
-import { verifySession } from "supertokens-node/recipe/session/framework/express";
-import { SessionRequest } from "supertokens-node/framework/express";
+import { verifySession } from "supertokens-node/recipe/session/framework/express/index.js";
+import { SessionRequest } from "supertokens-node/framework/express/index.js";
 
 export const activityRoutes = express.Router()
 

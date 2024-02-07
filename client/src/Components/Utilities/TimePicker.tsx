@@ -8,7 +8,7 @@ interface TimePickerProps {
 export function TimePicker(props: TimePickerProps) {
   return (
     <label
-      className="block text-sm font-medium leading-6 text-gray-900">{props.label}
+      className="block text-sm font-medium text-gray-900">{props.label}
       <input type="time"
         value={props.time}
         min={props.time}

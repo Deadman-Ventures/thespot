@@ -6,16 +6,16 @@ import { DayDetails } from "../../Types/DayDetails";
 import { ActivityCategories } from "../../Types/ActivityCategories";
 import { CREATE_ACTIVITIES, CREATE_ITINERARY } from "../../Types/ApiRoutes";
 import { ItineraryDetails } from "../../Types/ItineraryDetails";
-import { Toast, ToastTypes } from "../../Components/Utilities/Toast";
+import Session from 'supertokens-auth-react/recipe/session';
+import { useNavigate } from "react-router";
 
 export function NewItinerary() {
+  const navigate = useNavigate()
   const [startDate, setStartDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
   const [endDate, setEndDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
   const [tripName, setTripName] = useState<string>()
   const [dateError, setDateError] = useState<string>()
   const [itinerary, setItinerary] = useState<DayDetails[]>()
-  const [toastVisible, setToastVisible] = useState<boolean>(false)
-  const [toastStatus, setToastStatus] = useState<ToastTypes>()
 
   useEffect(() => {
     const _startDate = new Date(startDate);
@@ -62,11 +62,13 @@ export function NewItinerary() {
   }
 
   const onSave = async () => {
+    let userId = await Session.getUserId();
+
     const itineraryDetails: ItineraryDetails = {
       name: tripName,
       startDate: startDate,
       endDate: endDate,
-      createdBy: '0f54b1d8-07c9-4fa1-b7a9-373bb30dab8a',
+      createdBy: userId,
       editors: [],
       viewers: []
     }
@@ -95,38 +97,28 @@ export function NewItinerary() {
       })
 
       if (activityResponse.ok) {
-        setToastStatus(ToastTypes.SUCCESS)
-        setToastVisible(true)
-        setTimeout(() => {
-          setToastVisible(false)
-        }, 3000)
+        alert('Itinerary created!')
+        navigate(`/itineraries`)
       }
       else {
-        setToastStatus(ToastTypes.ERROR)
-        setToastVisible(true)
-        setTimeout(() => {
-          setToastVisible(false)
-        }, 3000)
+        alert('Error creating itinerary. Please check for input errors.')
       }
     }
   }
 
   return (<>
     <div className="flex mb-4">
-      <h1 className="h1 w-full h-12">Build Your Dream Vacation</h1>
+      <h1 className="h1 w-full h-12 p-2">Build Your Dream Vacation</h1>
     </div>
-    <div className="flex mb-4 flex-col">
-      <h2 className="h2 w-full h-12 basis-full p-3">Enter Trip Dates to Get Started!</h2>
-      <label className="p-3">Trip Name: <input value={tripName} onChange={(e) => setTripName(e.target.value)}></input></label>
+    <div className="flex mb-4 flex-col p-3 gap-3">
+      <h2 className="h2 w-full h-12 basis-full">Enter Trip Details to Get Started!</h2>
+      <label className="">Trip Name: <input value={tripName} onChange={(e) => setTripName(e.target.value)}></input></label>
       <div className="flex mb-4 flex-row">
         <DatePicker date={startDate} setDate={(date: string) => setStartDate(date)} label={'Start Date:'} />
         <DatePicker date={endDate} setDate={(date: string) => setEndDate(date)} label={'End Date:'} />
       </div>
       {dateError && <p className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">{dateError}</p>}
       {startDate && endDate && <Itinerary days={itinerary} setDays={setItinerary} onSave={onSave} />}
-      {toastVisible && <Toast
-        message={toastStatus === ToastTypes.SUCCESS ? 'Itinerary created!' : 'Error creating itinerary.'}
-        type={toastStatus} />}
     </div>
   </>
   )

@@ -40,7 +40,10 @@ export function Day(props: DayProps) {
           Date: {props.details.date}
         </h2>
         {props.details.activities.map((a, i) => (
-          <Activity key={i} details={a} updateDetails={(newDetails: ActivityDetails) => updateActivityDetails(i, { ...newDetails })}
+          <Activity
+            key={i}
+            details={a}
+            updateDetails={(newDetails: ActivityDetails) => updateActivityDetails(i, { ...newDetails })}
             removeActivity={() => removeActivity(i)} />
         ))}
         <button

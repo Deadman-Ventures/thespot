@@ -39,6 +39,7 @@ export function Itinerary(props: ItineraryProps) {
   return (<>
     {props.days?.map((d, i) => (
       <Day
+        key={i}
         details={d}
         updateDetails={(newDetails: DayDetails) => updateDay(i, newDetails)}
       />
