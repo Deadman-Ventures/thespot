@@ -15,6 +15,7 @@ import ThirdPartyEmailPassword, { Github, Google, Facebook, Apple } from "supert
 import Session from "supertokens-auth-react/recipe/session";
 import { API_ROOT, APP_NAME, WEBSITE_DOMAIN } from './Types/Config'
 import { ThirdPartyEmailPasswordPreBuiltUI } from "supertokens-auth-react/recipe/thirdpartyemailpassword/prebuiltui"
+import { ExistingItinerary } from "./Pages/Itineraries/ExistingItinerary";
 
 SuperTokens.init({
   appInfo: {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: '/itineraries/new',
         element: <SessionAuth><NewItinerary /></SessionAuth>
+      },
+      {
+        path: '/itineraries/:id',
+        element: <SessionAuth><ExistingItinerary /></SessionAuth>
       }
     ]
   },

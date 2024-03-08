@@ -10,7 +10,6 @@ export function NavBar() {
   ])
 
   useEffect(() => {
-    console.log('in useeffect')
     for (let t of tabs) {
       if (window.location.href.includes(t.link)) {
         tabs.forEach(a => a.name === t.name ? a.current = true : a.current = false)

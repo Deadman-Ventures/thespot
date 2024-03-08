@@ -12,8 +12,8 @@ export interface DayProps {
 }
 
 export function Day(props: DayProps) {
-  const updateActivityDetails = (activty: number, newActivityDetails: ActivityDetails) => {
-    props.details.activities[activty] = { ...newActivityDetails }
+  const updateActivityDetails = (activity: number, newActivityDetails: ActivityDetails) => {
+    props.details.activities[activity] = { ...newActivityDetails }
     props.updateDetails({ ...props.details })
   }
 

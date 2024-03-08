@@ -21,20 +21,20 @@ export function Itineraries() {
 
   return (
     <>
-      <div className="flex mb-4 flex-col">
-        <h1 className="h1 h-12">View Your Saved Trips</h1>
+      <div className="flex mb-4 flex-row gap-10">
+        <h1 className="h1 h-12">Your Saved Trips</h1>
         <button
           className="btn-primary w-48 h-12"
           onClick={() => navigate('/itineraries/new')}>
           Build A New Trip
         </button>
       </div>
-      <div className="flex mb-4 flex-col">
+      <div className="flex mb-4 flex-col md:flex-row gap-5">
         {userItineraries?.map((i, index) => (
           <div key={index} className="flex mb-4 flex-col">
             <h2 className="h2 h-12">{i.name}</h2>
             <button
-              className="btn-primary w-48 h-12"
+              className="bg-purple-500 text-white rounded-full font-sm w-24 h-8"
               onClick={() => navigate(`/itineraries/${i.id}`)}>
               View Trip
             </button>
